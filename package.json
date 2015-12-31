@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/geeeeeeeeek/DatabaseDesignProjectServer/issues"
   },
-  "homepage": "https://github.com/geeeeeeeeek/DatabaseDesignProjectServer#readme"
+  "homepage": "https://github.com/geeeeeeeeek/DatabaseDesignProjectServer#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "mysql": "^2.10.0"
+  }
 }
