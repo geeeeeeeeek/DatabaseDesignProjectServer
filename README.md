@@ -15,9 +15,23 @@
 #### /users
 
 - GET: `限管理员` 获取所有用户信息。
+  
+  > **Test:** `http://localhost:3000/users`
+  
 - GET: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 获取指定用户信息。
+  
+  > **Test:** `http://localhost:3000/users?id=222&name=testuser`
+  
 - POST: `限管理员` 接受对象数组，批量创建用户。
-- DELETE: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 删除指定用户。
+  
+  > **Object param:** id, name, password, type(one of `Developer`, `Manager`, `Salesman`)
+  > 
+  > **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"id":"111","name":"xyz","password":"xyz","type":"Developer"}' http://localhost:3000/users`
+
+
+- DELETE: `限管理员` *?id=A,B,C* 删除指定用户。
+  
+  > **Test:**  `curl -X DELETE http://localhost:3000/users?id=111`
 
 #### /users/:user_id
 
