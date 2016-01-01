@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
   ProjectServiceProvider.createProjects(projects);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK");
+  res.write("OK\n");
   res.end();
 });
 
@@ -32,7 +32,7 @@ router.delete('/', function (req, res, next) {
   ProjectServiceProvider.deleteProjects(idList);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK");
+  res.write("OK\n");
   res.end();
 });
 
@@ -53,7 +53,7 @@ router.put('/:project_id', function (req, res, next) {
   ProjectServiceProvider.updateProject(id, project);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK");
+  res.write("OK\n");
   res.end();
 });
 
@@ -63,7 +63,7 @@ router.delete('/:project_id', function (req, res, next) {
   ProjectServiceProvider.deleteProject(id);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK");
+  res.write("OK\n");
   res.end();
 });
 

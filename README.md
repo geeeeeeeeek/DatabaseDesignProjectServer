@@ -8,9 +8,13 @@
 
 #### /sessions
 
-- [ ] POST: 接受用户名和密码的对象，返回用户token。
-
->  后文中所有请求都需要在cookie中带上用户token，否则返回`401`。
+- [x] POST: 接受用户名和密码的对象，返回用户token。
+      
+      > **Object param:** name, password
+      > 
+      > **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"name":"NewName","password":"NewPass"}' http://localhost:3000/sessions`
+      > 
+      > **Note:** 密码正确返回token，密码错误HTTP返回`401`。
 
 ## 用户
 

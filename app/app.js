@@ -5,6 +5,7 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 
 let routes = require('./routes/index');
+let sessions = require('./routes/sessions');
 let users = require('./routes/users');
 let projects = require('./routes/projects');
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 // Routers
 app.use('/', routes);
+app.use('/sessions', sessions);
 app.use('/users', users);
 app.use('/projects', projects);
 
