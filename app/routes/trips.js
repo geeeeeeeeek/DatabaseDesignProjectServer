@@ -12,6 +12,7 @@ router.get('/requests', function (req, res, next) {
   let nameList = req.query.name, idList = req.query.id;
 
   TripServiceProvider.getUsers(nameList, idList).then((result)=> {
+    console.log(result);
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();

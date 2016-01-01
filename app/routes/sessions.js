@@ -12,10 +12,13 @@ router.post('/', function (req, res, next) {
   let data = req.body;
 
   SessionServiceProvider.login(data).then((result)=> {
+    console.log(result);
+
     res.writeHead(200, {'Content-Type': 'application/json'});
-    res.write(result);
+    res.write(JSON.stringify(result));
     res.end();
-  }).catch(()=> {
+  }).catch((err)=> {
+    console.log(err);
     res.writeHead(401, {'Content-Type': 'application/json'});
     res.write("Meow! Meow meow! Invader detected!\n");
     res.end();
