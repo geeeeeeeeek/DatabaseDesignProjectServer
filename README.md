@@ -68,15 +68,15 @@
 
 #### /projects/:project_id
 
-- [ ] GET: `全体用户` 获取项目信息。
+- [x] GET: `全体用户` 获取项目信息。
       
-- [ ] PUT: `限管理员` 修改项目信息。
+- [x] PUT: `限管理员` 修改项目信息。
       
       > **Note:** 项目id不可更改
       > 
       > **Test:** `curl -H "Content-Type: application/json" -X PUT -d '{"manager":"444","name":"some-pj","description":"new description"}' http://localhost:3000/projects/1`
       
-- [ ] DELETE: `限管理员` 删除项目。
+- [x] DELETE: `限管理员` 删除项目。
       
       > **Test:**  `curl -X DELETE http://localhost:3000/projects/1`
 
