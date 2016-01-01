@@ -35,4 +35,35 @@ router.delete('/', function (req, res, next) {
   res.end();
 });
 
+
+router.get('/:user_id', function (req, res, next) {
+  let id = req.params.user_id;
+
+  UserServiceProvider.getUser(id).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
+router.put('/:user_id', function (req, res, next) {
+  let user = req.body, id = req.params.user_id;
+
+  UserServiceProvider.updateUser(id, user);
+
+  res.writeHead(200, {'Content-Type': 'application/json'});
+  res.write("OK");
+  res.end();
+});
+
+router.delete('/:user_id', function (req, res, next) {
+  let id = req.params.id;
+
+  UserServiceProvider.deleteUser(id);
+
+  res.writeHead(200, {'Content-Type': 'application/json'});
+  res.write("OK");
+  res.end();
+});
+
 module.exports = router;

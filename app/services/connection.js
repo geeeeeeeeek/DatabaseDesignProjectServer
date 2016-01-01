@@ -11,4 +11,9 @@ let connection = mysql.createConnection({
   database: 'DB_Project'
 });
 
+connection.do = (query, callback)=> {
+  console.log(query);
+  connection.query(query, callback);
+};
+
 module.exports = connection;

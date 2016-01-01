@@ -16,11 +16,11 @@
 
 - [x] GET: `限管理员` 获取所有用户信息。
 
-> **Test:** `http://localhost:3000/users`
+> **Test:** http://localhost:3000/users
 
 - [x] GET: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 获取指定用户信息。
 
->  **Test:** `http://localhost:3000/users?id=222&name=testuser`
+>  **Test:** http://localhost:3000/users?id=222&name=testuser
 
 - [x] POST: `限管理员` 接受对象数组，批量创建用户。
 
@@ -34,11 +34,17 @@
 
 #### /users/:user_id
 
-- [ ] GET: `限管理员` 获取用户信息。
-- [ ] PUT: `限管理员` 修改用户信息。
-- [ ] DELETE: `限管理员` 删除用户。
-
-> `developers`、`salesmen`、`managers`是`users`的同义词，区别在于会从不同的表中返回数据。
+- [x] GET: `限管理员` 获取用户信息。
+      
+      > **Test:** http://localhost:3000/users/222
+      
+- [x] PUT: `限管理员` 修改用户信息。
+      
+      > **Note:** 用户id和type不可更改
+      > 
+      > **Test:** `curl -H "Content-Type: application/json" -X PUT -d '{"name":"NewName","password":"NewPass"}' http://localhost:3000/users/222`
+      
+- [x] DELETE: `限管理员` 删除用户。
 
 ## 项目
 

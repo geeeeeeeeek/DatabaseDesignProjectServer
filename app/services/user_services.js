@@ -21,9 +21,7 @@ class UserServiceProvider {
     }
 
     return new Promise((resolve, reject)=> {
-      console.log(querySQL);
-      connection.query(querySQL, (err, rows)=> {
-        console.log(querySQL);
+      connection.do(querySQL, (err, rows)=> {
         console.log('\n');
         resolve(rows);
       });
@@ -35,13 +33,11 @@ class UserServiceProvider {
     for (let user of users) {
       // Create entry in users table
       let querySQL = `INSERT IGNORE INTO Users (user_id,username,password) VALUES ('${user.id}','${user.name}','${user.password}');`;
-      console.log(querySQL);
-      connection.query(querySQL);
+      connection.do(querySQL);
 
       // Create entry in corresponding role table
       querySQL = `INSERT IGNORE INTO ${user.type} (user_id) VALUES ('${user.id}');`;
-      console.log(querySQL);
-      connection.query(querySQL);
+      connection.do(querySQL);
     }
 
     console.log('\n');
@@ -52,21 +48,55 @@ class UserServiceProvider {
 
     // Delete entry in corresponding role table
     querySQL = `DELETE FROM Developer WHERE user_id IN (${idList});`;
-    console.log(querySQL);
-    connection.query(querySQL);
+    connection.do(querySQL);
 
     querySQL = `DELETE FROM Manager WHERE user_id IN (${idList});`;
-    console.log(querySQL);
-    connection.query(querySQL);
+    connection.do(querySQL);
 
     querySQL = `DELETE FROM Salesman WHERE user_id IN (${idList});`;
-    console.log(querySQL);
-    connection.query(querySQL);
+    connection.do(querySQL);
 
     // Delete entry in users table
     querySQL = `DELETE FROM Users WHERE user_id IN (${idList});`;
-    console.log(querySQL);
-    connection.query(querySQL);
+    connection.do(querySQL);
+
+    console.log('\n');
+  }
+
+  static getUser(id) {
+    let querySQL = `SELECT * FROM Users WHERE user_id='${id}';`;
+
+    return new Promise((resolve, reject)=> {
+      connection.do(querySQL, (err, rows)=> {
+        console.log('\n');
+        resolve(rows);
+      });
+    });
+  }
+
+  static updateUser(id, user) {
+    let querySQL = `UPDATE Users SET username='${user.name}',password='${user.password}' WHERE user_id='${id}';`;
+
+    connection.do(querySQL);
+    console.log('\n');
+  }
+
+  static deleteUser(id) {
+    let querySQL = '';
+
+    // Delete entry in corresponding role table
+    querySQL = `DELETE FROM Developer WHERE user_id='${id}';`;
+    connection.do(querySQL);
+
+    querySQL = `DELETE FROM Manager WHERE user_id='${id}';`;
+    connection.do(querySQL);
+
+    querySQL = `DELETE FROM Salesman WHERE user_id='${id}';`;
+    connection.do(querySQL);
+
+    // Delete entry in users table
+    querySQL = `DELETE FROM Users WHERE user_id='${id}';`;
+    connection.do(querySQL);
 
     console.log('\n');
   }
