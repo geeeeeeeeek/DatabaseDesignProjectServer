@@ -7,8 +7,8 @@
 #### /sessions
 
 - POST: 接受用户名和密码的对象，返回用户token。
-
-> 后文中所有请求都需要在cookie中带上用户token，否则返回`401`。
+  
+  >  后文中所有请求都需要在cookie中带上用户token，否则返回`401`。
 
 ## 用户
 
@@ -17,11 +17,13 @@
 - GET: `限管理员` 获取所有用户信息。
   
   > **Test:** `http://localhost:3000/users`
-  
+
+
 - GET: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 获取指定用户信息。
   
-  > **Test:** `http://localhost:3000/users?id=222&name=testuser`
-  
+  >  **Test:** `http://localhost:3000/users?id=222&name=testuser`
+
+
 - POST: `限管理员` 接受对象数组，批量创建用户。
   
   > **Object param:** id, name, password, type(one of `Developer`, `Manager`, `Salesman`)
@@ -56,6 +58,16 @@
 - PUT: `限管理员` 修改项目信息。
 - DELETE: `限管理员` 删除项目。
 
+## 出差任务
+
+#### /trips
+
+- GET: `限项目经理和开发人员` *?for=A,B,C* 获取某开发人员的出差任务。不带参数返回(开发人员)自己的出差任务或(项目经理)负责的出差任务。
+
+#### /trips/:trip_id
+
+- GET: `限项目经理和开发人员` 出差任务详情。
+
 ## 出差申请
 
 #### /trips/requests
@@ -87,10 +99,10 @@
 
 #### /trips/:trip_id/members
 
-- GET: `全体成员` 获取所有出差成员。
+- GET: `全体成员` 获取所有出差成员，包含状态。
 - POST: `限项目经理` 接受对象数组，批量创建添加出差人员。
 
 #### /trips/:trip_id/members/:user_id
 
 - GET: `全体成员` 获取出差成员状态。
-- PUT: `限开发人员` 更新出差成员状态。
+- PUT: `限开发人员` user_id="me"更新自己的出差成员状态。

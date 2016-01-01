@@ -70,7 +70,6 @@ class UserServiceProvider {
 
     console.log('\n');
   }
-
 }
 
 module.exports = UserServiceProvider;
