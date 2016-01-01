@@ -63,7 +63,26 @@ class UserServiceProvider {
 
     return new Promise((resolve, reject)=> {
       connection.do(querySQL, (err, rows)=> {
-        resolve(rows);
+        resolve(rows[0]);
+      });
+    }).then((obj) => {
+      let typeDetectFunc = (type, resolve)=> {
+        let SQL = `SELECT * FROM ${type} u WHERE u.user_id='${obj.user_id}';`;
+        connection.do(SQL, (err, rows)=> {
+          if (rows && rows[0]) {
+            obj.type = type;
+            resolve(obj);
+          }
+        });
+      };
+
+      return new Promise((resolve, reject)=> {
+        if (!obj) reject();
+
+        typeDetectFunc('Developer', resolve);
+        typeDetectFunc('Salesman', resolve);
+        typeDetectFunc('Manager', resolve);
+        typeDetectFunc('admin', resolve);
       });
     });
   }
