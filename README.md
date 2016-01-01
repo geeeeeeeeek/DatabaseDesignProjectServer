@@ -32,7 +32,7 @@
 
 > **Object param:** id, name, password, type(one of `Developer`, `Manager`, `Salesman`)
 > 
-> **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"id":"111","name":"xyz","password":"xyz","type":"Developer"}' http://localhost:3000/users`
+> **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"id":"333","name":"xyz","password":"xyz","type":"Salesman"}' http://localhost:3000/users`
 
 - [x] DELETE: `限管理员` *?id=A,B,C* 删除指定用户。
 
@@ -98,12 +98,21 @@
 
 #### /trips/requests
 
-- [ ] GET: `全体成员` *?from=A,B,C* 获取某销售人员的出差申请，*?status=approved,rejected,waiting,canceled* 获取指定状态的出差申请，*?project=A,B,C* 获取指定项目名的出差申请。
-- [ ] POST: `限销售人员` 创建出差申请。
+- [x] GET: `全体成员` *?from=A,B,C* 获取某销售人员的出差申请，*?status=0(for approved),1(for rejected),2(for pending),3(for canceled)* 获取指定状态的出差申请，*?project=A,B,C* 获取指定项目id的出差申请。
+      
+      > **Note:** from和project二选一，可以与status同时使用。
+      > 
+      > **Test:** http://localhost:3000/trips/requests?project=1&status=2
+      
+- [x] POST: `限销售人员` 创建出差申请。
+      
+      > **Object param:** id, manager, name, description
+      > 
+      > **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"project_id":"1","user_id":"333","description":"some des","headcount":"2","duration":"3","start_time":"2016-05-05"}' http://localhost:3000/trips/requests`
 
 #### /trips/requests/:request_id
 
-- [ ] GET: `全体成员` 获取出差申请。
+- [x] GET: `全体成员` 获取出差申请。
 - [ ] PUT: `限所属销售人员和项目经理` 修改出差申请。
 
 #### /trips/requests/:request_id/history

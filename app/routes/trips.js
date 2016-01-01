@@ -9,10 +9,28 @@ let router = express.Router();
 let TripServiceProvider = require('../services/trips');
 
 router.get('/requests', function (req, res, next) {
-  let nameList = req.query.name, idList = req.query.id;
+  let fromList = req.query.from, projectList = req.query.project, statusList = req.query.status;
 
-  TripServiceProvider.getUsers(nameList, idList).then((result)=> {
-    console.log(result);
+  TripServiceProvider.getTripRequests(fromList, projectList, statusList).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
+router.post('/requests', function (req, res, next) {
+  let request = req.body;
+
+  TripServiceProvider.createTripRequest(request);
+  res.writeHead(200, {'Content-Type': 'application/json'});
+  res.write('OK\n');
+  res.end();
+});
+
+router.get('/requests/:request_id', function (req, res, next) {
+  let id = req.params.request_id;
+
+  TripServiceProvider.getTripRequest(id).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();

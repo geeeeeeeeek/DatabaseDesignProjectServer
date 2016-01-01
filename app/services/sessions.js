@@ -27,7 +27,6 @@ class SessionServiceProvider {
         let SQL = `SELECT * FROM ${type} u WHERE u.user_id='${obj.data.user_id}';`;
         connection.do(SQL, (err, rows)=> {
           if (rows && rows[0]) {
-            console.log(rows);
             obj.type = type;
             resolve(obj);
           }
