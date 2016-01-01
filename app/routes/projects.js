@@ -3,12 +3,13 @@
 let express = require('express');
 let router = express.Router();
 
-let UserServiceProvider = require('../services/users');
+let ProjectServiceProvider = require('../services/projects');
 
 router.get('/', function (req, res, next) {
-  let nameList = req.query.name, idList = req.query.id;
+  let nameList = req.query.name, idList = req.query.id,
+      managerList = req.query.manager, developerList = req.query.developer;
 
-  UserServiceProvider.getUsers(nameList, idList).then((result)=> {
+  ProjectServiceProvider.getProjects(nameList, idList, managerList, developerList).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();
@@ -16,9 +17,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  let users = (req.body instanceof Array) ? req.body : [req.body];
+  let projects = (req.body instanceof Array) ? req.body : [req.body];
 
-  UserServiceProvider.createUsers(users);
+  ProjectServiceProvider.createProjects(projects);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
   res.write("OK");
@@ -28,7 +29,7 @@ router.post('/', function (req, res, next) {
 router.delete('/', function (req, res, next) {
   let idList = (req.query.id instanceof Array) ? req.query.id : [req.query.id];
 
-  UserServiceProvider.deleteUsers(idList);
+  ProjectServiceProvider.deleteProjects(idList);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
   res.write("OK");
@@ -36,30 +37,30 @@ router.delete('/', function (req, res, next) {
 });
 
 
-router.get('/:user_id', function (req, res, next) {
-  let id = req.params.user_id;
+router.get('/:project_id', function (req, res, next) {
+  let id = req.params.project_id;
 
-  UserServiceProvider.getUser(id).then((result)=> {
+  ProjectServiceProvider.getProject(id).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();
   });
 });
 
-router.put('/:user_id', function (req, res, next) {
-  let user = req.body, id = req.params.user_id;
+router.put('/:project_id', function (req, res, next) {
+  let project = req.body, id = req.params.project_id;
 
-  UserServiceProvider.updateUser(id, user);
+  ProjectServiceProvider.updateProject(id, project);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
   res.write("OK");
   res.end();
 });
 
-router.delete('/:user_id', function (req, res, next) {
-  let id = req.params.user_id;
+router.delete('/:project_id', function (req, res, next) {
+  let id = req.params.project_id;
 
-  UserServiceProvider.deleteUser(id);
+  ProjectServiceProvider.deleteProject(id);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
   res.write("OK");

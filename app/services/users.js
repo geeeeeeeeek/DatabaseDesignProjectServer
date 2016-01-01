@@ -22,7 +22,6 @@ class UserServiceProvider {
 
     return new Promise((resolve, reject)=> {
       connection.do(querySQL, (err, rows)=> {
-        console.log('\n');
         resolve(rows);
       });
     });
@@ -39,8 +38,6 @@ class UserServiceProvider {
       querySQL = `INSERT IGNORE INTO ${user.type} (user_id) VALUES ('${user.id}');`;
       connection.do(querySQL);
     }
-
-    console.log('\n');
   }
 
   static deleteUsers(idList) {
@@ -59,8 +56,6 @@ class UserServiceProvider {
     // Delete entry in users table
     querySQL = `DELETE FROM Users WHERE user_id IN (${idList});`;
     connection.do(querySQL);
-
-    console.log('\n');
   }
 
   static getUser(id) {
@@ -68,7 +63,6 @@ class UserServiceProvider {
 
     return new Promise((resolve, reject)=> {
       connection.do(querySQL, (err, rows)=> {
-        console.log('\n');
         resolve(rows);
       });
     });
@@ -78,7 +72,6 @@ class UserServiceProvider {
     let querySQL = `UPDATE Users SET username='${user.name}',password='${user.password}' WHERE user_id='${id}';`;
 
     connection.do(querySQL);
-    console.log('\n');
   }
 
   static deleteUser(id) {
@@ -97,8 +90,6 @@ class UserServiceProvider {
     // Delete entry in users table
     querySQL = `DELETE FROM Users WHERE user_id='${id}';`;
     connection.do(querySQL);
-
-    console.log('\n');
   }
 }
 

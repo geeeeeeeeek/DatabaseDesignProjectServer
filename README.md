@@ -1,5 +1,7 @@
 # C/S API概要设计
 
+![wechat_1450353903](https://cloud.githubusercontent.com/assets/7262715/12070883/d6113e1e-b0c9-11e5-8153-0563f4975c0d.png)
+
 按资源分类。
 
 ## 时域
@@ -50,16 +52,33 @@
 
 #### /projects
 
-- [ ] GET: `限销售人员` 获取所有项目信息。
-- [ ] GET: `全体成员` *?name=A,B,C* 或 *?id=A,B,C* 或 *?manager=A,B,C*  或 *?developer=A,B,C* 获取指定项目信息。
-- [ ] POST: `限管理员` 接受对象数组，批量创建项目。
-- [ ] DELETE: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 删除指定项目。
+- [x] GET: `限销售人员` 获取所有项目信息。
+      
+- [x] GET: `全体成员` *?name=A,B,C* 或 *?id=A,B,C* 或 *?manager=A,B,C*  或 *?developer=A,B,C* 获取指定项目信息。
+      
+- [x] POST: `限管理员` 接受对象数组，批量创建项目。
+      
+      > **Object param:** id, manager, name, description
+      > 
+      > **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"id":"1","manager":"444","name":"some-pj","description":"some description"}' http://localhost:3000/projects`
+      
+- [x] DELETE: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 删除指定项目。
+      
+      > - [ ] **Test:**  `curl -X DELETE http://localhost:3000/projects?id=1`
 
 #### /projects/:project_id
 
 - [ ] GET: `全体用户` 获取项目信息。
+      
 - [ ] PUT: `限管理员` 修改项目信息。
+      
+      > **Note:** 项目id不可更改
+      > 
+      > **Test:** `curl -H "Content-Type: application/json" -X PUT -d '{"manager":"444","name":"some-pj","description":"new description"}' http://localhost:3000/projects/1`
+      
 - [ ] DELETE: `限管理员` 删除项目。
+      
+      > **Test:**  `curl -X DELETE http://localhost:3000/projects/1`
 
 ## 出差任务
 
