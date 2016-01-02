@@ -12,8 +12,6 @@ router.post('/', function (req, res, next) {
   let data = req.body;
 
   SessionServiceProvider.login(data).then((result)=> {
-    console.log(result);
-
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();

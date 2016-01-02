@@ -50,8 +50,17 @@ class TripServiceProvider {
     return new Promise((resolve, reject)=> {
       let querySQL = `SELECT * FROM TripRequest WHERE request_id='${id}'`;
 
-      connection.queryWithLog(querySQL, (err, rows)=> {
-        resolve(rows);
+      connection.queryWithLog(querySQL, (err, obj)=> {
+        if (obj[0] && obj[0].status == 1) {
+          querySQL = `SELECT * FROM RejectedRequest WHERE request_id='${id}';`;
+          connection.queryWithLog(querySQL, (err, rows)=> {
+            console.log(rows);
+            obj[0].reject_reason = rows[rows.length - 1].reason;
+            resolve(obj[0]);
+          });
+        } else {
+          resolve(obj);
+        }
       });
     });
 
@@ -95,7 +104,7 @@ class TripServiceProvider {
             if (rows && rows.length > 3) reject("More than three pending requests.");
             querySQL = `UPDATE TripRequest SET
                       status='${request.status}',submit_time='${timestamp}',description='${request.description}',
-                      headcount='${request.headcount}',duration='${request.duration}',start_time='${request.start_time}',status='2'
+                      headcount='${request.headcount}',duration='${request.duration}',start_time='${request.start_time}'
                       WHERE request_id='${request.id}';`;
 
             connection.queryWithLog(querySQL);
