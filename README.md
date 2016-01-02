@@ -138,7 +138,7 @@
       
 - [x] POST: `限开发人员` 创建出差报告。
       
-      > **Object param:** description, start_time, duration
+      > **Object param:** description, start_time, duration, user_id
 
 #### /trips/:trip_id/reports/:report_id
 
