@@ -37,4 +37,26 @@ router.get('/requests/:request_id', function (req, res, next) {
   });
 });
 
+router.put('/requests/:request_id', function (req, res, next) {
+  let id = req.params.request_id, request = req.body;
+
+  if (request.id && request.id != id) {
+    res.writeHead(400, {'Content-Type': 'application/json'});
+    res.write('Bad Request: inconsistent trip request id.\n');
+    res.end();
+  }
+
+  request.id = id;
+
+  TripServiceProvider.updateTripRequest(request).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write('OK\n');
+    res.end();
+  }).catch((err)=> {
+    res.writeHead(400, {'Content-Type': 'application/json'});
+    res.write('Bad Request: ' + err);
+    res.end();
+  });
+});
+
 module.exports = router;

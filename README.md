@@ -109,14 +109,21 @@
       
 - [x] POST: `限销售人员` 创建出差申请。
       
-      > **Object param:** id, manager, name, description
+      > **Object param:** project_id, user_id, description, headcount, duration, start_time
       > 
       > **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"project_id":"1","user_id":"333","description":"some des","headcount":"2","duration":"3","start_time":"2016-05-05"}' http://localhost:3000/trips/requests`
 
 #### /trips/requests/:request_id
 
 - [x] GET: `全体成员` 获取出差申请。
-- [ ] PUT: `限所属销售人员和项目经理` 修改出差申请。
+      
+- [x] PUT: `限所属销售人员和项目经理` 修改出差申请。
+      
+      > **Note:** project_id, user_id不能更改。会做以下两个边界判断：1⃣️销售人员只允许有三个pending的请求2⃣️同一个请求被reject三次后不能再提交
+      > 
+      > **Object param:** status, description, headcount, duration, start_time, **type**(one of  `Manager`, `Salesman`), reject_reason(如果你是拒绝的)
+      > 
+      > **Test:**  `curl -H "Content-Type: application/json" -X PUT -d '{"status":"0","description":"some des","headcount":"2","duration":"3","start_time":"2016-01-01","type":"Salesman"}' http://localhost:3000/trips/requests/3`
 
 #### /trips/requests/:request_id/history
 
