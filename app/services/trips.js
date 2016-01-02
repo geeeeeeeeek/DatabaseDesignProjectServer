@@ -9,12 +9,19 @@ let connection = require('./connection');
 class TripServiceProvider {
   static createTripRequest(request) {
     let timestamp = require('./utils/time')();
+    let querySQL = `SELECT * FROM TripRequest WHERE user_id=${request.user_id} AND status=2;`;
+    /* Check if the salesman has more than three pending requests. */
 
-    let querySQL = `INSERT IGNORE INTO TripRequest
-    (project_id,user_id,status,submit_time,description,headcount,duration,start_time) VALUES
-    ('${request.project_id}','${request.user_id}',2,'${timestamp}','${request.description}','${request.headcount}','${request.duration}','${request.start_time}');`;
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        if (rows && rows.length > 3) reject("More than three pending requests.");
+        let querySQL = `INSERT IGNORE INTO TripRequest
+         (project_id,user_id,status,submit_time,description,headcount,duration,start_time) VALUES
+        ('${request.project_id}','${request.user_id}',2,'${timestamp}','${request.description}','${request.headcount}','${request.duration}','${request.start_time}');`;
 
-    connection.queryWithLog(querySQL);
+        connection.queryWithLog(querySQL);
+      });
+    });
   }
 
   static getTripRequests(fromList, projectList, statusList) {

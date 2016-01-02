@@ -21,10 +21,16 @@ router.get('/requests', function (req, res, next) {
 router.post('/requests', function (req, res, next) {
   let request = req.body;
 
-  TripServiceProvider.createTripRequest(request);
-  res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write(JSON.stringify({"message": "OK\n"}));
-  res.end();
+  TripServiceProvider.createTripRequest(request).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify({"message": "OK\n"}));
+    res.end();
+  }).catch((err)=> {
+    res.writeHead(401, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify({"message": "Bad Request: " + err}));
+    res.end();
+  });
+
 });
 
 router.get('/requests/:request_id', function (req, res, next) {
