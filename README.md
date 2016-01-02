@@ -130,7 +130,7 @@
 
 #### /trips/:trip_id/reports
 
-- [ ] GET: `全体成员` *?from=A,B,C* 获取某开发人员的出差报告。
+- [x] GET: `全体成员` *?from=A,B,C* 获取某开发人员的出差报告。
 - [ ] POST: `限开发人员` 创建出差报告。
 
 #### /trips/:trip_id/reports/:report_id
@@ -149,5 +149,4 @@
 
 #### /trips/:trip_id/members/:user_id
 
-- [ ] GET: `全体成员` 获取出差成员状态。
-- [ ] PUT: `限开发人员` 更新出差成员状态。
+- [x] GET: `全体成员` 获取出差成员状态。0(for `not confirm`), 1(for `confirmed`)

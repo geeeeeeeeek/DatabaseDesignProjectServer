@@ -66,14 +66,16 @@ class TripServiceProvider {
         if (request.status == 0) {
           /* Create new trip. */
           let ts = Date.now();
-          querySQL = `UPDATE TripRequest SET status='0',trip_id='${ts}' WHERE request_id='${request.id}';
-                INSERT IGNORE INTO Trip (trip_id,request_id,status) VALUES('${ts}','${request.id}','0');`;
+          querySQL = `UPDATE TripRequest SET status='0',trip_id='${ts}' WHERE request_id='${request.id}';`;
+          connection.queryWithLog(querySQL);
+          querySQL = `INSERT IGNORE INTO Trip (trip_id,request_id,status) VALUES('${ts}','${request.id}','0');`;
           connection.queryWithLog(querySQL);
           resolve();
         } else if (request.status == 1) {
           /* Create new rejection entry. */
-          querySQL = `UPDATE TripRequest SET status='1' WHERE request_id='${request.id}';
-                INSERT IGNORE INTO RejectedRequest (request_id,reject_date,reason) VALUES('${request.id}','${timestamp}','${request.reject_reason}');`;
+          querySQL = `UPDATE TripRequest SET status='1' WHERE request_id='${request.id}';`;
+          connection.queryWithLog(querySQL);
+          querySQL = `INSERT IGNORE INTO RejectedRequest (request_id,reject_date,reason) VALUES('${request.id}','${timestamp}','${request.reject_reason}');`;
           connection.queryWithLog(querySQL);
           resolve();
         } else {
@@ -155,6 +157,25 @@ class TripServiceProvider {
       querySQL = `${querySQL}\nINSERT IGNORE INTO TripMember (trip_id,user_id,status) VALUES ('${member.trip_id}','${member.user_id}','0');`;
     }
     connection.queryWithLog(querySQL);
+  }
+
+  static getTripReport(id, fromList) {
+    let querySQL = `SELECT * FROM Report WHERE trip_id='${id}'`;
+
+    if (fromList) {
+      querySQL = `${querySQL} WHERE user_id IN ('${fromList}');`
+    }
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
+  static createTripReport(report) {
+    let querySQL = `INSERT IGNORE INTO Report (report_id,trip_id,description,start_time) VALUES
+            ('${report.id}','${report.trip_id}','${report.description}','${report.start_time}');`;
   }
 }
 module.exports = TripServiceProvider;
