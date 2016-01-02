@@ -217,9 +217,9 @@ class TripServiceProvider {
     querySQL = `UPDATE TripMember SET report_id='${ts}',status='2' WHERE trip_id='${report.trip_id}' AND user_id='${report.user_id}';`;
     connection.queryWithLog(querySQL, (err, rows)=> {
 
-      querySQL = `SELECT * FROM TripMember WHERE trip_id='${report.trip_id}' AND status!=2;`;
+      querySQL = `SELECT * FROM TripMember WHERE trip_id='${report.trip_id}' AND status<>2;`;
       connection.queryWithLog(querySQL, (err2, rows2)=> {
-        if (rows2 && rows2.length > 0) {
+        if (!rows2 || rows2.length == 0) {
           querySQL = `UPDATE Trip SET status='1' WHERE trip_id='${report.trip_id}';`;
           connection.queryWithLog(querySQL);
         }
