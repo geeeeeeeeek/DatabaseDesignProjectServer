@@ -23,20 +23,17 @@
 - [x] GET: `限管理员` 获取所有用户信息。
       
       > **Test:** http://localhost:3000/users
-
-
+      
 - [x] GET: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 获取指定用户信息。
       
       > **Test:** http://localhost:3000/users?id=222&name=testuser
-
-
+      
 - [x] POST: `限管理员` 接受对象数组，批量创建用户。
       
       > **Object param:** id, name, password, type(one of `Developer`, `Manager`, `Salesman`)
       > 
       > **Test:**  `curl -H "Content-Type: application/json" -X POST -d '{"id":"333","name":"xyz","password":"xyz","type":"Salesman"}' http://localhost:3000/users`
-
-
+      
 - [x] DELETE: `限管理员` *?id=A,B,C* 删除指定用户。
       
       > **Test:**  `curl -X DELETE http://localhost:3000/users?id=111`
@@ -144,11 +141,13 @@
 
 #### /trips/:trip_id/members
 
-- [ ] GET: `全体成员` 获取所有出差成员，包含状态。
-- [ ] POST: `限项目经理` 接受对象数组，批量创建添加出差人员。
+- [x] GET: `全体成员` 获取所有出差成员，包含状态。
+      
+- [x] POST: `限项目经理` 接受对象数组，批量创建添加出差人员。
+      
+      > **Object param:** trip_id, user_id
 
 #### /trips/:trip_id/members/:user_id
 
 - [ ] GET: `全体成员` 获取出差成员状态。
-- [ ] PUT: `限开发人员` user_id="me"更新自己的出差成员状态。
-
+- [ ] PUT: `限开发人员` 更新出差成员状态。

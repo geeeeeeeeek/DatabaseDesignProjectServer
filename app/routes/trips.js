@@ -79,4 +79,25 @@ router.get('/:trip_id', function (req, res, next) {
   });
 });
 
+router.get('/:trip_id/members', function (req, res, next) {
+  let id = req.query.trip_id;
+
+  TripServiceProvider.getTripMembers(id).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
+router.post('/:trip_id/members', function (req, res, next) {
+  let members = (req.body instanceof Array) ? req.body : [req.body];
+
+
+  TripServiceProvider.getTripMembers(id).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
 module.exports = router;

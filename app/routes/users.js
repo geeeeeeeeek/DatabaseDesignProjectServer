@@ -26,7 +26,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.delete('/', function (req, res, next) {
-  let idList = (req.query.id instanceof Array) ? req.query.id : [req.query.id];
+  let idList = req.query.id;
 
   UserServiceProvider.deleteUsers(idList);
 

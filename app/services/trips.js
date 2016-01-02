@@ -79,7 +79,7 @@ class TripServiceProvider {
         } else {
           reject("Request status has to be approved or rejected.");
         }
-      } else if (request.type == 'Salesman' && request.status != 3) {
+      } else if (request.type == 'Salesman') {
         querySQL = `SELECT * FROM RejectedRequest WHERE request_id=${request.id};`;
         /* Check if it has been rejected more than three times. */
         connection.queryWithLog(querySQL, (err, rows)=> {
@@ -137,6 +137,24 @@ class TripServiceProvider {
         resolve(rows);
       });
     });
+  }
+
+  static getTripMembers(id) {
+    let querySQL = `SELECT * FROM TripMember WHERE trip_id='${id}';`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
+  static addTripMembers(members) {
+    let querySQL = '';
+    for (let member of members) {
+      querySQL = `${querySQL}\nINSERT IGNORE INTO TripMember (trip_id,user_id,status) VALUES ('${member.trip_id}','${member.user_id}','0');`;
+    }
+    connection.queryWithLog(querySQL);
   }
 }
 module.exports = TripServiceProvider;

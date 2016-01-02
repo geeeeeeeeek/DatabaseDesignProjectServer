@@ -28,7 +28,6 @@ class UserServiceProvider {
   }
 
   static createUsers(users) {
-
     for (let user of users) {
       // Create entry in users table
       let querySQL = `INSERT IGNORE INTO Users (user_id,username,password) VALUES ('${user.id}','${user.name}','${user.password}');`;
