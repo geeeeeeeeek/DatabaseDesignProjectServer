@@ -14,7 +14,10 @@ class TripServiceProvider {
 
     return new Promise((resolve, reject)=> {
       connection.queryWithLog(querySQL, (err, rows)=> {
-        if (rows && rows.length > 3) reject("More than three pending requests.");
+        if (rows && rows.length > 3) {
+          reject("More than three pending requests.");
+          return;
+        }
         let querySQL = `INSERT IGNORE INTO TripRequest
          (project_id,user_id,status,submit_time,description,headcount,duration,start_time) VALUES
         ('${request.project_id}','${request.user_id}',2,'${timestamp}','${request.description}','${request.headcount}','${request.duration}','${request.start_time}');`;
@@ -99,16 +102,23 @@ class TripServiceProvider {
           resolve("Wang!");
         } else {
           reject("Request status has to be approved or rejected.");
+          return;
         }
       } else if (request.type == 'Salesman') {
         querySQL = `SELECT * FROM RejectedRequest WHERE request_id=${request.id};`;
         /* Check if it has been rejected more than three times. */
         connection.queryWithLog(querySQL, (err, rows)=> {
-          if (rows && rows.length > 3) reject("Rejected for more than three times.");
+          if (rows && rows.length > 3) {
+            reject("Rejected for more than three times.");
+            return;
+          }
           querySQL = `SELECT * FROM TripRequest WHERE user_id=${request.user_id} AND status=2;`;
           /* Check if the salesman has more than three pending requests. */
           connection.queryWithLog(querySQL, (err, rows)=> {
-            if (rows && rows.length > 3) reject("More than three pending requests.");
+            if (rows && rows.length > 3) {
+              reject("More than three pending requests.");
+              return;
+            }
             querySQL = `UPDATE TripRequest SET
                       status='${request.status}',submit_time='${timestamp}',description='${request.description}',
                       headcount='${request.headcount}',duration='${request.duration}',start_time='${request.start_time}'
