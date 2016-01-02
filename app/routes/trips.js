@@ -26,7 +26,7 @@ router.post('/requests', function (req, res, next) {
     res.write(JSON.stringify({"message": "OK\n"}));
     res.end();
   }).catch((err)=> {
-    res.writeHead(401, {'Content-Type': 'application/json'});
+    res.writeHead(400, {'Content-Type': 'application/json'});
     res.write(JSON.stringify({"message": "Bad Request: " + err}));
     res.end();
   });
