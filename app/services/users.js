@@ -21,7 +21,7 @@ class UserServiceProvider {
     }
 
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows);
       });
     });
@@ -32,11 +32,11 @@ class UserServiceProvider {
     for (let user of users) {
       // Create entry in users table
       let querySQL = `INSERT IGNORE INTO Users (user_id,username,password) VALUES ('${user.id}','${user.name}','${user.password}');`;
-      connection.do(querySQL);
+      connection.queryWithLog(querySQL);
 
       // Create entry in corresponding role table
       querySQL = `INSERT IGNORE INTO ${user.type} (user_id) VALUES ('${user.id}');`;
-      connection.do(querySQL);
+      connection.queryWithLog(querySQL);
     }
   }
 
@@ -45,30 +45,30 @@ class UserServiceProvider {
 
     // Delete entry in corresponding role table
     querySQL = `DELETE FROM Developer WHERE user_id IN (${idList});`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
 
     querySQL = `DELETE FROM Manager WHERE user_id IN (${idList});`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
 
     querySQL = `DELETE FROM Salesman WHERE user_id IN (${idList});`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
 
     // Delete entry in users table
     querySQL = `DELETE FROM Users WHERE user_id IN (${idList});`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 
   static getUser(id) {
     let querySQL = `SELECT * FROM Users WHERE user_id='${id}';`;
 
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows[0]);
       });
     }).then((obj) => {
       let typeDetectFunc = (type, resolve)=> {
         let SQL = `SELECT * FROM ${type} u WHERE u.user_id='${obj.user_id}';`;
-        connection.do(SQL, (err, rows)=> {
+        connection.queryWithLog(SQL, (err, rows)=> {
           if (rows && rows[0]) {
             obj.type = type;
             resolve(obj);
@@ -90,7 +90,7 @@ class UserServiceProvider {
   static updateUser(id, user) {
     let querySQL = `UPDATE Users SET username='${user.name}',password='${user.password}' WHERE user_id='${id}';`;
 
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 
   static deleteUser(id) {
@@ -98,17 +98,17 @@ class UserServiceProvider {
 
     // Delete entry in corresponding role table
     querySQL = `DELETE FROM Developer WHERE user_id='${id}';`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
 
     querySQL = `DELETE FROM Manager WHERE user_id='${id}';`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
 
     querySQL = `DELETE FROM Salesman WHERE user_id='${id}';`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
 
     // Delete entry in users table
     querySQL = `DELETE FROM Users WHERE user_id='${id}';`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 }
 

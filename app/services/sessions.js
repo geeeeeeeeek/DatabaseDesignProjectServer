@@ -13,7 +13,7 @@ class SessionServiceProvider {
 
     let querySQL = `SELECT * FROM Users u WHERE u.username='${data.name}';`;
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         if (rows && rows[0] && rows[0].password == data.password) {
           let token = Date.now();
           SessionServiceProvider.sessionMap.set(token, rows[0].id);
@@ -25,7 +25,7 @@ class SessionServiceProvider {
     }).then((obj) => {
       let typeDetectFunc = (type, resolve)=> {
         let SQL = `SELECT * FROM ${type} u WHERE u.user_id='${obj.data.user_id}';`;
-        connection.do(SQL, (err, rows)=> {
+        connection.queryWithLog(SQL, (err, rows)=> {
           if (rows && rows[0]) {
             obj.type = type;
             resolve(obj);

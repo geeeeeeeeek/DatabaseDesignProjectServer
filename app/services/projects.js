@@ -20,7 +20,7 @@ class ProjectServiceProvider {
     }
 
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows);
       });
     });
@@ -30,7 +30,7 @@ class ProjectServiceProvider {
     for (let project of projects) {
       // Create entry in project table
       let querySQL = `INSERT IGNORE INTO Project (project_id,user_id,project_name,project_description) VALUES ('${project.id}','${project.manager}','${project.name}','${project.description}');`;
-      connection.do(querySQL);
+      connection.queryWithLog(querySQL);
     }
   }
 
@@ -40,14 +40,14 @@ class ProjectServiceProvider {
 
     // Delete entry in project table
     querySQL = `DELETE FROM Project WHERE project_id IN ('${idList}');`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 
   static getProject(id) {
     let querySQL = `SELECT * FROM Project p WHERE p.project_id='${id}';`;
 
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows);
       });
     });
@@ -56,7 +56,7 @@ class ProjectServiceProvider {
   static updateProject(id, project) {
     let querySQL = `UPDATE Project SET project_name='${project.name}',user_id='${project.manager}',project_description='${project.description}' WHERE project_id='${id}';`;
 
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 
   static deleteProject(id) {
@@ -65,7 +65,7 @@ class ProjectServiceProvider {
 
     // Delete entry in project table
     querySQL = `DELETE FROM Project WHERE project_id='${id}';`;
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 }
 

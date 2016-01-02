@@ -11,8 +11,9 @@ let connection = mysql.createConnection({
   database: 'DB_Project'
 });
 
-connection.do = (query, callback)=> {
-  console.log(query);
+connection.queryWithLog = (query, callback)=> {
+  let timestamp = require('./utils/time')();
+  console.log(`${timestamp}: ${query}`);
   connection.query(query, callback);
 };
 

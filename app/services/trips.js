@@ -8,15 +8,13 @@ let connection = require('./connection');
 
 class TripServiceProvider {
   static createTripRequest(request) {
-    let timestamp = new Date();
-    timestamp = `${timestamp.getUTCFullYear()}-${('00' + (timestamp.getUTCMonth() + 1)).slice(-2)}-${('00' + timestamp.getUTCDate()).slice(-2)}`
-        + ` ${('00' + timestamp.getUTCHours()).slice(-2)}:${('00' + timestamp.getUTCMinutes()).slice(-2)}:${('00' + timestamp.getUTCSeconds()).slice(-2)}`;
+    let timestamp = require('./utils/time')();
 
     let querySQL = `INSERT IGNORE INTO TripRequest
     (project_id,user_id,status,submit_time,description,headcount,duration,start_time) VALUES
     ('${request.project_id}','${request.user_id}',2,'${timestamp}','${request.description}','${request.headcount}','${request.duration}','${request.start_time}');`;
 
-    connection.do(querySQL);
+    connection.queryWithLog(querySQL);
   }
 
   static getTripRequests(fromList, projectList, statusList) {
@@ -41,7 +39,7 @@ class TripServiceProvider {
     }
 
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows);
       });
     });
@@ -51,7 +49,7 @@ class TripServiceProvider {
     let querySQL = `SELECT * FROM TripRequest WHERE request_id=${id}`;
 
     return new Promise((resolve, reject)=> {
-      connection.do(querySQL, (err, rows)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows);
       });
     });
