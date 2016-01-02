@@ -23,7 +23,7 @@ router.post('/requests', function (req, res, next) {
 
   TripServiceProvider.createTripRequest(request);
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write('OK\n');
+  res.write({"message": "OK\n"});
   res.end();
 });
 
@@ -50,11 +50,11 @@ router.put('/requests/:request_id', function (req, res, next) {
 
   TripServiceProvider.updateTripRequest(request).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
-    res.write('OK\n');
+    res.write({"message": "OK\n"});
     res.end();
   }).catch((err)=> {
     res.writeHead(400, {'Content-Type': 'application/json'});
-    res.write('Bad Request: ' + err);
+    res.write({"message": `Bad Request: ${err}`});
     res.end();
   });
 });
@@ -92,8 +92,7 @@ router.get('/:trip_id/members', function (req, res, next) {
 router.post('/:trip_id/members', function (req, res, next) {
   let members = (req.body instanceof Array) ? req.body : [req.body];
 
-
-  TripServiceProvider.getTripMembers(id).then((result)=> {
+  TripServiceProvider.addTripMembers(members).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();

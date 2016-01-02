@@ -21,7 +21,7 @@ router.post('/', function (req, res, next) {
   UserServiceProvider.createUsers(users);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK\n");
+  res.write({"message":"OK\n"});
   res.end();
 });
 
@@ -31,7 +31,7 @@ router.delete('/', function (req, res, next) {
   UserServiceProvider.deleteUsers(idList);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK\n");
+  res.write({"message":"OK\n"});
   res.end();
 });
 
@@ -52,7 +52,7 @@ router.put('/:user_id', function (req, res, next) {
   UserServiceProvider.updateUser(id, user);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK\n");
+  res.write({"message":"OK\n"});
   res.end();
 });
 
@@ -62,7 +62,7 @@ router.delete('/:user_id', function (req, res, next) {
   UserServiceProvider.deleteUser(id);
 
   res.writeHead(200, {'Content-Type': 'application/json'});
-  res.write("OK\n");
+  res.write({"message":"OK\n"});
   res.end();
 });
 

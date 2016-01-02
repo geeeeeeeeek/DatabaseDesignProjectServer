@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
   }).catch((err)=> {
     console.log(err);
     res.writeHead(401, {'Content-Type': 'application/json'});
-    res.write("Meow! Meow meow! Invader detected!\n");
+    res.write({"message": "Meow! Meow meow! Invader detected!\n"});
     res.end();
   });
 });
