@@ -50,7 +50,7 @@ router.put('/requests/:request_id', function (req, res, next) {
 
   TripServiceProvider.updateTripRequest(request).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
-    res.write({"message": "OK\n"});
+    res.write({"message": "OK\n", "trip_id": result});
     res.end();
   }).catch((err)=> {
     res.writeHead(400, {'Content-Type': 'application/json'});
@@ -100,9 +100,21 @@ router.post('/:trip_id/members', function (req, res, next) {
 });
 
 router.get('/:trip_id/members/:user_id', function (req, res, next) {
-  let id = req.params.user_id, fromList = req.query.from;
+  let id = req.params.user_id;
 
-  TripServiceProvider.getTripMember(id, fromList).then((result)=> {
+  TripServiceProvider.getTripMember(id).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
+router.put('/:trip_id/members/:user_id', function (req, res, next) {
+  let member = req.body;
+
+  member.id = req.params.user_id;
+
+  TripServiceProvider.getTripMember(member).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();
@@ -125,6 +137,16 @@ router.post('/:trip_id/reports', function (req, res, next) {
   report.id = req.params.user_id;
 
   TripServiceProvider.createTripReport(report).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
+router.get('/:trip_id/reports/:report_id', function (req, res, next) {
+  let id = req.params.report_id;
+
+  TripServiceProvider.getTripReport(id).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();

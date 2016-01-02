@@ -8,7 +8,7 @@
 
 #### /sessions
 
-- [x] POST: 接受用户名和密码的对象，返回用户token。
+- [x] POST: 接受用户名和密码的对象，返回用户token和type。
       
       > **Object param:** name, password
       > 
@@ -120,7 +120,7 @@
       
 - [x] PUT: `限所属销售人员和项目经理` 修改出差申请。
       
-      > **Note:** project_id, user_id不能更改。会做以下两个边界判断：1⃣️销售人员只允许有三个pending的请求2⃣️同一个请求被reject三次后不能再提交
+      > **Note:** project_id, user_id不能更改。会做以下两个边界判断：1⃣️销售人员只允许有三个pending的请求2⃣️同一个请求被reject三次后不能再提交。若接受申请返回trip_id。
       > 
       > **Object param:** status, description, headcount, duration, start_time, **type**(one of  `Manager`, `Salesman`), reject_reason(如果你是拒绝的)
       > 
@@ -142,7 +142,7 @@
 
 #### /trips/:trip_id/reports/:report_id
 
-- [ ] GET: `全体成员` 获取特定出差报告。
+- [x] GET: `全体成员` 获取特定出差报告。
 
 ## 出差人员
 
@@ -152,10 +152,15 @@
       
 - [x] POST: `限项目经理` 接受对象数组，批量创建添加出差人员。
       
-      > **Object param:** trip_id, user_id
+      > **Object param:** user_id
+      > 
+      > **Test:** [{"user_id":"Meow!!!"}]
 
 #### /trips/:trip_id/members/:user_id
 
 - [x] GET: `全体成员` 获取出差成员状态。0(for `not confirm`), 1(for `confirmed`)
-- [ ] PUT: `全体成员` 更新出差成员状态。
+      
+- [x] PUT: `全体成员` 更新出差成员状态。
+      
+      > **Object param:** status
 

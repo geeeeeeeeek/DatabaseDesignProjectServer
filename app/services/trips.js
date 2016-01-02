@@ -70,14 +70,14 @@ class TripServiceProvider {
           connection.queryWithLog(querySQL);
           querySQL = `INSERT IGNORE INTO Trip (trip_id,request_id,status) VALUES('${ts}','${request.id}','0');`;
           connection.queryWithLog(querySQL);
-          resolve();
+          resolve(ts);
         } else if (request.status == 1) {
           /* Create new rejection entry. */
           querySQL = `UPDATE TripRequest SET status='1' WHERE request_id='${request.id}';`;
           connection.queryWithLog(querySQL);
           querySQL = `INSERT IGNORE INTO RejectedRequest (request_id,reject_date,reason) VALUES('${request.id}','${timestamp}','${request.reject_reason}');`;
           connection.queryWithLog(querySQL);
-          resolve();
+          resolve("");
         } else {
           reject("Request status has to be approved or rejected.");
         }
@@ -142,7 +142,27 @@ class TripServiceProvider {
   }
 
   static getTripMembers(id) {
+    let querySQL = `SELECT * FROM TripMember;`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
+  static getTripMember(id) {
     let querySQL = `SELECT * FROM TripMember WHERE trip_id='${id}';`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
+  static updateTripMember(member) {
+    let querySQL = `UPDATE TripMember SET status='${member.status}' WHERE trip_id='${member.id}';`;
 
     return new Promise((resolve, reject)=> {
       connection.queryWithLog(querySQL, (err, rows)=> {
@@ -178,5 +198,16 @@ class TripServiceProvider {
             ('${report.id}','${report.trip_id}','${report.description}','${report.start_time}','${report.duration}');`;
     connection.queryWithLog(querySQL);
   }
+
+  static getTripReport(id) {
+    let querySQL = `SELECT * FROM Report WHERE trip_id='${id}'`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
 }
 module.exports = TripServiceProvider;
