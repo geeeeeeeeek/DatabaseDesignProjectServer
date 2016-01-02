@@ -144,7 +144,7 @@ class TripServiceProvider {
 
   static getTrip(id) {
     return new Promise((resolve, reject)=> {
-      let querySQL = `SELECT * FROM Trip t JOIN TripRequest r WHERE t.trip_id=r.trip_id AND r.trip_id='${id}';`;
+      let querySQL = `SELECT * FROM Trip t WHERE r.trip_id='${id}';`;
 
       connection.queryWithLog(querySQL, (err, rows)=> {
         resolve(rows);
