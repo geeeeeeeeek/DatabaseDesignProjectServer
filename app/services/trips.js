@@ -14,7 +14,7 @@ class TripServiceProvider {
 
     return new Promise((resolve, reject)=> {
       connection.queryWithLog(querySQL, (err, rows)=> {
-        if (rows && rows.length > 3) {
+        if (rows && rows.length >= 3) {
           reject("More than three pending requests.");
           return;
         }
@@ -23,6 +23,7 @@ class TripServiceProvider {
         ('${request.project_id}','${request.user_id}',2,'${timestamp}','${request.description}','${request.headcount}','${request.duration}','${request.start_time}');`;
 
         connection.queryWithLog(querySQL);
+        resolve("OK");
       });
     });
   }
