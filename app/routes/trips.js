@@ -109,4 +109,26 @@ router.get('/:trip_id/members/:user_id', function (req, res, next) {
   });
 });
 
+router.get('/:trip_id/reports', function (req, res, next) {
+  let id = req.params.user_id, fromList = req.query.from;
+
+  TripServiceProvider.getTripReports(id, fromList).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
+router.post('/:trip_id/reports', function (req, res, next) {
+  let report = req.body;
+
+  report.id = req.params.user_id;
+
+  TripServiceProvider.createTripReport(report).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
 module.exports = router;

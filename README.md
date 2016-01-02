@@ -40,7 +40,7 @@
 
 #### /developers
 
-- [x] [x] GET: `全体用户` 获取开发人员信息。
+- [x] GET: `全体用户` 获取开发人员信息。
 
 #### /users/:user_id
 
@@ -135,7 +135,10 @@
 #### /trips/:trip_id/reports
 
 - [x] GET: `全体成员` *?from=A,B,C* 获取某开发人员的出差报告。
-- [ ] POST: `限开发人员` 创建出差报告。
+      
+- [x] POST: `限开发人员` 创建出差报告。
+      
+      > **Object param:** description, start_time, duration
 
 #### /trips/:trip_id/reports/:report_id
 
@@ -154,3 +157,5 @@
 #### /trips/:trip_id/members/:user_id
 
 - [x] GET: `全体成员` 获取出差成员状态。0(for `not confirm`), 1(for `confirmed`)
+- [ ] PUT: `全体成员` 更新出差成员状态。
+

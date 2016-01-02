@@ -65,7 +65,7 @@ class TripServiceProvider {
         /* Update trip request status. */
         if (request.status == 0) {
           /* Create new trip. */
-          let ts = Date.now();
+          let ts = Date.now().toString().substr(6, 6);
           querySQL = `UPDATE TripRequest SET status='0',trip_id='${ts}' WHERE request_id='${request.id}';`;
           connection.queryWithLog(querySQL);
           querySQL = `INSERT IGNORE INTO Trip (trip_id,request_id,status) VALUES('${ts}','${request.id}','0');`;
@@ -159,11 +159,11 @@ class TripServiceProvider {
     connection.queryWithLog(querySQL);
   }
 
-  static getTripReport(id, fromList) {
+  static getTripReports(id, fromList) {
     let querySQL = `SELECT * FROM Report WHERE trip_id='${id}'`;
 
     if (fromList) {
-      querySQL = `${querySQL} WHERE user_id IN ('${fromList}');`
+      querySQL = `${querySQL} AND user_id IN ('${fromList}');`
     }
 
     return new Promise((resolve, reject)=> {
@@ -174,8 +174,9 @@ class TripServiceProvider {
   }
 
   static createTripReport(report) {
-    let querySQL = `INSERT IGNORE INTO Report (report_id,trip_id,description,start_time) VALUES
-            ('${report.id}','${report.trip_id}','${report.description}','${report.start_time}');`;
+    let querySQL = `INSERT IGNORE INTO Report (report_id,trip_id,description,start_time,duration) VALUES
+            ('${report.id}','${report.trip_id}','${report.description}','${report.start_time}','${report.duration}');`;
+    connection.queryWithLog(querySQL);
   }
 }
 module.exports = TripServiceProvider;
