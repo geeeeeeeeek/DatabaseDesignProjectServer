@@ -68,4 +68,15 @@ router.get('/requests/:request_id/history', function (req, res, next) {
     res.end();
   });
 });
+
+router.get('/:trip_id', function (req, res, next) {
+  let id = req.query.trip_id;
+
+  TripServiceProvider.getTrip(id).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
+
 module.exports = router;

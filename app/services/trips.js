@@ -113,5 +113,30 @@ class TripServiceProvider {
       });
     });
   }
+
+  static getTrips(forList, projectList) {
+    let querySQL = '';
+    if (forList) {
+      querySQL = `SELECT * FROM Trip t JOIN TripRequest r JOIN TripMember m WHERE t.trip_id=m.trip_id AND t.trip_id=r.trip_id AND m.user_id IN ('${forList}');`;
+    } else if (projectList) {
+      querySQL = `SELECT * FROM Trip t JOIN TripRequest r WHERE t.trip_id=r.trip_id AND r.project_id IN ('${projectList}');`;
+    }
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
+  static getTrip(id) {
+    let querySQL = `SELECT * FROM Trip t JOIN TripRequest r WHERE t.trip_id=r.trip_id AND r.project_id='${id}';`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
 }
 module.exports = TripServiceProvider;
