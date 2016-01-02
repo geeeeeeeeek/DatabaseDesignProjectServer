@@ -6,9 +6,9 @@ let router = express.Router();
 let UserServiceProvider = require('../services/users');
 
 router.get('/', function (req, res, next) {
-  let nameList = req.query.name, idList = req.query.id;
+  let nameList = req.query.name, idList = req.query.id, typeList=req.query.type;
 
-  UserServiceProvider.getUsers(nameList, idList).then((result)=> {
+  UserServiceProvider.getUsers(nameList, idList,typeList).then((result)=> {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(result));
     res.end();

@@ -27,6 +27,16 @@ class UserServiceProvider {
     });
   }
 
+  static getDevelopers() {
+    let querySQL = `SELECT * FROM Users u JOIN Developer d WHERE u.user_id=d.user_id`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
+    });
+  }
+
   static createUsers(users) {
     for (let user of users) {
       // Create entry in users table

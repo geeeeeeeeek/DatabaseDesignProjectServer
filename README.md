@@ -38,6 +38,10 @@
       
       > **Test:**  `curl -X DELETE http://localhost:3000/users?id=111`
 
+#### /developers
+
+- [x] [x] GET: `全体用户` 获取开发人员信息。
+
 #### /users/:user_id
 
 - [x] GET: `限管理员` 获取用户信息。
