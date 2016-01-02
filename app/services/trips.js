@@ -183,11 +183,18 @@ class TripServiceProvider {
   }
 
   static addTripMembers(id, members) {
-    let querySQL = '';
-    for (let member of members) {
-      querySQL = `INSERT IGNORE INTO TripMember (trip_id,user_id,status) VALUES ('${id}','${member.user_id}','0');`;
-      connection.queryWithLog(querySQL);
-    }
+    let querySQL = `SELECT * FROM TripRequest r JOIN Project p WHERE r.trip_id='${id}' AND r.project_id=p.project_id;`;
+    connection.queryWithLog(querySQL, (err0, rows0)=> {
+      let projectId = rows0[0].project_id;
+      for (let member of members) {
+        querySQL = `INSERT IGNORE INTO TripMember (trip_id,user_id,status) VALUES ('${id}','${member.user_id}','0');`;
+        connection.queryWithLog(querySQL);
+
+        querySQL = `INSERT IGNORE INTO FK_Project_Developer (user_id,project_id) VALUES ('${member.user_id}','${projectId}');`;
+        connection.queryWithLog(querySQL);
+      }
+    });
+
   }
 
   static getTripReports(id, fromList) {
@@ -207,8 +214,17 @@ class TripServiceProvider {
             ('${ts}','${report.trip_id}','${report.description}','${report.start_time}','${report.duration}');`;
     connection.queryWithLog(querySQL);
 
-    querySQL = `UPDATE TripMember SET report_id='${ts}' WHERE trip_id='${report.trip_id}' AND user_id='${report.user_id}';`;
-    connection.queryWithLog(querySQL);
+    querySQL = `UPDATE TripMember SET report_id='${ts}',status='2' WHERE trip_id='${report.trip_id}' AND user_id='${report.user_id}';`;
+    connection.queryWithLog(querySQL, (err, rows)=> {
+
+      querySQL = `SELECT * FROM TripMember WHERE trip_id='${report.trip_id}' AND status!=2;`;
+      connection.queryWithLog(querySQL, (err2, rows2)=> {
+        if (rows2 && rows2.length > 0) {
+          querySQL = `UPDATE Trip SET status='1' WHERE trip_id='${report.trip_id}';`;
+          connection.queryWithLog(querySQL);
+        }
+      });
+    });
   }
 
   static getTripReport(id) {

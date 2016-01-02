@@ -72,7 +72,7 @@
       
 - [x] DELETE: `限管理员` *?name=A,B,C* 或 *?id=A,B,C* 删除指定项目。
       
-      > - [ ] **Test:**  `curl -X DELETE http://localhost:3000/projects?id=1`
+      > **Test:**  `curl -X DELETE http://localhost:3000/projects?id=1`
 
 #### /projects/:project_id
 
@@ -158,7 +158,7 @@
 
 #### /trips/:trip_id/members/:user_id
 
-- [x] GET: `全体成员` 获取出差成员状态。0(for `not confirm`), 1(for `confirmed`)
+- [x] GET: `全体成员` 获取出差成员状态。0(for `not confirm`), 1(for `confirmed`), 2(for `submitted`)
       
 - [x] PUT: `全体成员` 更新出差成员状态。
       
