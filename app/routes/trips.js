@@ -59,4 +59,13 @@ router.put('/requests/:request_id', function (req, res, next) {
   });
 });
 
+router.get('/requests/:request_id/history', function (req, res, next) {
+  let id = req.params.request_id;
+
+  TripServiceProvider.getTripRequestHistory(id).then((result)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result));
+    res.end();
+  });
+});
 module.exports = router;

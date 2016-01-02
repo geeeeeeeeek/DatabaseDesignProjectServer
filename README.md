@@ -127,7 +127,7 @@
 
 #### /trips/requests/:request_id/history
 
-- [ ] GET: `全体成员` 获取项目申请历史。
+- [x] GET: `全体成员` 获取项目申请历史。
 
 ## 出差报告
 

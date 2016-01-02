@@ -46,7 +46,7 @@ class TripServiceProvider {
   }
 
   static getTripRequest(id) {
-    let querySQL = `SELECT * FROM TripRequest WHERE request_id=${id}`;
+    let querySQL = `SELECT * FROM TripRequest WHERE request_id='${id}'`;
 
     return new Promise((resolve, reject)=> {
       connection.queryWithLog(querySQL, (err, rows)=> {
@@ -101,6 +101,16 @@ class TripServiceProvider {
       } else {
         reject();
       }
+    });
+  }
+
+  static getTripRequestHistory(id) {
+    let querySQL = `SELECT * FROM RejectedRequest WHERE request_id='${id}'`;
+
+    return new Promise((resolve, reject)=> {
+      connection.queryWithLog(querySQL, (err, rows)=> {
+        resolve(rows);
+      });
     });
   }
 }
