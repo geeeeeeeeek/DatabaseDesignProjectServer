@@ -13,17 +13,26 @@ class TripServiceProvider {
     /* Check if the salesman has more than three pending requests. */
 
     return new Promise((resolve, reject)=> {
-      connection.queryWithLog(querySQL, (err, rows)=> {
-        if (rows && rows.length >= 3) {
+      connection.queryWithLog(querySQL, (err, rows2)=> {
+        if (rows2 && rows2.length >= 3) {
           reject("More than three pending requests.");
           return;
         }
-        let querySQL = `INSERT IGNORE INTO TripRequest
+        querySQL = `SELECT * FROM RejectedRequest WHERE request_id=${request.id};`;
+        /* Check if it has been rejected more than three times. */
+        connection.queryWithLog(querySQL, (err, rows)=> {
+          if (rows && rows.length > 3) {
+            reject("Rejected for more than three times.");
+            return;
+          }
+          let querySQL = `INSERT IGNORE INTO TripRequest
          (project_id,user_id,status,submit_time,description,headcount,duration,start_time) VALUES
         ('${request.project_id}','${request.user_id}',2,'${timestamp}','${request.description}','${request.headcount}','${request.duration}','${request.start_time}');`;
 
-        connection.queryWithLog(querySQL);
-        resolve("OK");
+          connection.queryWithLog(querySQL);
+          resolve("OK");
+        });
+
       });
     });
   }
